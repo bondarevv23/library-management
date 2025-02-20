@@ -1,1 +1,6 @@
 /obj
+.DS_Store
+/library-management-backend/obj
+/library-management-backend/bin
+/library-management-backend/.vscode
+/library-management-backend/.idea
