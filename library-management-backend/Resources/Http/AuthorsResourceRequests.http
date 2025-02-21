@@ -1,0 +1,35 @@
+### Create author
+POST http://localhost:8080/api/v1/authors
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "authorName",
+    "dateOfBirth": "01-02-1000"
+}
+
+### Find all
+GET http://localhost:8080/api/v1/authors
+Accept: application/json
+
+### Find by id
+GET http://localhost:8080/api/v1/authors/{{authorId}}
+Accept: application/json
+
+### Update by id
+PUT http://localhost:8080/api/v1/authors/{{authorId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "name": "authorName",
+    "dateOfBirth": "01-02-1000"
+}
+
+### Delete by id
+DELETE http://localhost:8080/api/v1/authors/{{authorId}}
+Accept: application/json
+
+### Find all by author id
+GET http://localhost:8080/api/v1/authors/{{authorId}}/books
+Accept: application/json

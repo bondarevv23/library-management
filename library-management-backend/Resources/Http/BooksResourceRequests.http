@@ -1,0 +1,36 @@
+### Create book
+POST http://localhost:8080/api/v1/books
+Accept: application/json
+Content-Type: application/json
+
+{
+    "title": "title",
+    "publicationYear": "1812",
+    "authorId": {{authorId}}
+}
+
+### Find all
+GET http://localhost:8080/api/v1/books
+Accept: application/json
+
+### Find by id
+GET http://localhost:8080/api/v1/books/{{bookId}}
+Accept: application/json
+
+### Update by id
+PUT http://localhost:8080/api/v1/books/{{bookId}}
+Accept: application/json
+Content-Type: application/json
+
+{
+    "title": "newTitle",
+    "publicationYear": "1813",
+}
+
+### Delete by id
+DELETE http://localhost:8080/api/v1/books/{{bookId}}
+Accept: application/json
+
+### Fuzzy search
+GET http://localhost:8080/api/v1/books/search?query={{searchQuery}}
+Accept: application/json
