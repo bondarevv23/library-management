@@ -21,3 +21,4 @@ docker-compose up -d
 dotnet run
 npm start
 ```
+by default service will be enabled on http://localhost:3000
