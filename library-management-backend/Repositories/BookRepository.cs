@@ -8,8 +8,12 @@ using Npgsql;
 
 namespace LibraryManagementSystem.Repositories;
 
-public class BookRepository(LibraryManagementSystemContext context) : IBookRepository
+public class BookRepository(
+    ApplicationSettings settings,
+    LibraryManagementSystemContext context
+) : IBookRepository
 {
+    private readonly ApplicationSettings _settings = settings;
     private readonly LibraryManagementSystemContext _context = context;
 
     public async Task<Book> Add(Book book)
@@ -54,7 +58,7 @@ public class BookRepository(LibraryManagementSystemContext context) : IBookRepos
 
     public async Task<IList<Book>> Search(string query, int pageNumber, int pageSize)
     {
-        string sql = $"SELECT * FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {DEFAULT_LEVENSHTAIN_DISTANCE}";
+        string sql = $"SELECT * FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {_settings.BookSearchMaxLevenshteinDistance}";
         return await _context.Books
             .FromSqlRaw(sql, query)
             .ToListAsync();
@@ -63,7 +67,7 @@ public class BookRepository(LibraryManagementSystemContext context) : IBookRepos
 
     public async Task<int> CountAllByQuery(string query)
     {
-        string sql = $"SELECT COUNT(*) FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {DEFAULT_LEVENSHTAIN_DISTANCE}";
+        string sql = $"SELECT COUNT(*) FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {_settings.BookSearchMaxLevenshteinDistance}";
         return await _context.IntFromRawSqlAsync(sql, new NpgsqlParameter("@p0", query));
     }
 }

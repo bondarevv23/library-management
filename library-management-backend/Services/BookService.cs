@@ -1,6 +1,8 @@
 using System.Web;
 using AutoMapper;
 using Fastenshtein;
+using Microsoft.Extensions.Options;
+using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Controllers.Models;
 using LibraryManagementSystem.Dto.Requests;
 using LibraryManagementSystem.Dto.Responses;
@@ -15,12 +17,15 @@ using static LibraryManagementSystem.Utilities.ServiceUtilities;
 namespace LibraryManagementSystem.Services;
 
 public class BookService(
+    IOptions<ApplicationSettings> settings,
     IBookRepository repository,
     IAuthorRepository authorRepository,
     IValidationService validator,
     IMapper mapper
 ) : IBookService
 {
+    private readonly ApplicationSettings _settings = settings?.Value!;
+
     private readonly IBookRepository _repository = repository;
 
     private readonly IAuthorRepository _authorRepository = authorRepository;
@@ -134,7 +139,7 @@ public class BookService(
             var searchQuery = HttpUtility.UrlDecode(request.UrlEncodedSearchQuery!);
             var pageNumber = request.PageNumber!.Value;
             var pageSize = request.PageSize!.Value;
-            return PERFORM_FUZZY_SEARCH_IN_MEMORY
+            return _settings.PerformFuzzySearchInMemory
                 ? await FuzzySearchInMemory(searchQuery: searchQuery, pageNumber: pageNumber, pageSize: pageSize)
                 : await FuzzySearchInDatabase(searchQuery: searchQuery, pageNumber: pageNumber, pageSize: pageSize);
         }
@@ -155,13 +160,14 @@ public class BookService(
         var takenBooks = new List<Book>(pageSize);
         var foundBooksCount = 0;
         var totalBooksCount = await _repository.CountAll();
-        var requestsCount = (totalBooksCount + FUZZY_SEARCH_BUCKET_SIZE - 1) / FUZZY_SEARCH_BUCKET_SIZE;
+        var fuzzySearchBucketSize = _settings.FuzzySearchBucketSize;
+        var requestsCount = (totalBooksCount + fuzzySearchBucketSize - 1) / fuzzySearchBucketSize;
         for (int i = 0; i <= requestsCount; i++)
         {
-            var bucketBooks = await _repository.FindAll(i, FUZZY_SEARCH_BUCKET_SIZE);
+            var bucketBooks = await _repository.FindAll(i, fuzzySearchBucketSize);
             foreach (var book in bucketBooks)
             {
-                if (levenshteinQuery.DistanceFrom(book.Title) < DEFAULT_LEVENSHTAIN_DISTANCE)
+                if (levenshteinQuery.DistanceFrom(book.Title) < _settings.BookSearchMaxLevenshteinDistance)
                 {
                     foundBooksCount++;
                     if (pageNumber == 1)

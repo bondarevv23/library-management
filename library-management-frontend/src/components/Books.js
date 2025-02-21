@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles.css';
 import { PAGE_SIZES } from '../constants';
-import { fetchData } from '../utils';
+import { deleteData, fetchData } from '../utils';
 
 function Books() {
   const navigate = useNavigate();
@@ -66,14 +66,12 @@ function Books() {
 
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this book?')) return;
-    fetchData({
+    deleteData({
       endpoint: `/books/${id}`,
-      params: { method: 'delete' },
       setLoading,
       setError,
-      setData: () => isSearching && searchQuery ? fetchBooksBySearch(searchQuery) : fetchBooks(pageNumber),
       errorMessage: 'Failed to delete book',
-    });
+    }).then(() => fetchBooks());;
   };
 
   const handleEdit = (book) => navigate(`/books/${book.id}`);

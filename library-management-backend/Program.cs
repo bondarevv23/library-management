@@ -5,17 +5,21 @@ using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
-using static LibraryManagementSystem.Constants.DatabaseConstants;
+
+using static LibraryManagementSystem.Constants.ConfigurationConstants;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
     builder.Services.AddSwaggerGen();
 
+    var settings = builder.Configuration.GetSection(APPLICATION_SETTINGS_PREFIX_NAME).Get<ApplicationSettings>();
+    builder.Services.AddSingleton(settings);
+
     builder.Services.AddDbContext<LibraryManagementSystemContext>(options =>
-      options.UseNpgsql(builder.Configuration.GetConnectionString(DEFAULT_CONNECTION_NAME)));
+      options.UseNpgsql(builder.Configuration.GetConnectionString(DEFAULT_CONNECTION)));
     
-    var redisConfig = builder.Configuration.GetSection(DEFAULT_REDIS_CONNECTION).Value;
+    var redisConfig = builder.Configuration.GetSection(REDIS_CONNECTION_STRING).Value;
     var redis = await ConnectionMultiplexer.ConnectAsync(redisConfig!);
     
     builder.Services.AddSingleton<IConnectionMultiplexer>(redis);
@@ -34,7 +38,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    DbInitializer.Initialize(app.Configuration.GetConnectionString(DEFAULT_CONNECTION_NAME)!);
+    DbInitializer.Initialize(app.Configuration.GetConnectionString(DEFAULT_CONNECTION)!);
 
     app.UseMiddleware<ApplicationExceptionHandler>();
 

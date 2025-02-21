@@ -165,7 +165,7 @@ function AuthorDetail() {
           <div className="button-group">
             <button onClick={handleEditToggle} disabled={loading} className="button button-edit">Edit</button>
             <button onClick={handleDelete} disabled={loading} className="button button-delete">Delete</button>
-            <button onClick={handleBack} disabled={loading} className="button button-cancel">Back to Books</button>
+            <button onClick={handleBack} disabled={loading} className="button button-cancel">Back to Authors</button>
           </div>
           <h3>Books by {author.name}</h3>
           {books.length > 0 ? (

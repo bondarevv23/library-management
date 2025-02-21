@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles.css'; 
 import { PAGE_SIZES } from '../constants';
-import { fetchData } from '../utils';
+import { deleteData, fetchData } from '../utils';
 
 function Authors() {
   const navigate = useNavigate();
@@ -31,14 +31,12 @@ function Authors() {
 
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this author?')) return;
-    fetchData({
+    deleteData({
       endpoint: `/authors/${id}`,
-      params: { method: 'delete' },
       setLoading,
       setError,
-      setData: fetchAuthors,
       errorMessage: 'Failed to delete author',
-    });
+    }).then(() => fetchAuthors());
   };
 
   const handleEdit = (author) => navigate(`/authors/${author.id}`);

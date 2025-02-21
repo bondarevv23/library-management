@@ -1,0 +1,54 @@
+version: "3.3"
+
+services:
+
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: library-management-system
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data
+
+  backend:
+    build:
+      context: ./library-management-backend
+      dockerfile: Dockerfile
+    environment:
+      ConnectionStrings__DefaultConnection: Host=db;Port=5432;Database=library-management-system;Username=postgres;Password=postgres;
+      Redis__ConnectionString: redis:6379
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    depends_on:
+      - redis
+      - db
+
+  frontend:
+    build:
+      context: ./library-management-frontend
+      dockerfile: Dockerfile
+    environment:
+      REACT_APP_API_URL: http://localhost:8080/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+
+volumes:
+  postgres: { }
+  redis: 
+    driver: local

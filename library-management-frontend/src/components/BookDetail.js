@@ -26,7 +26,7 @@ function BookDetail() {
 
     if (!formData.publicationYear) newErrors.publicationYear = 'Publication Year is required';
     else if (isNaN(pubYear)) newErrors.publicationYear = 'Publication Year must be a valid number';
-    else if (pubYear < 1000 || pubYear > currentYear) newErrors.publicationYear = `Year must be positive`;
+    else if (pubYear <= 0) newErrors.publicationYear = `Year must be positive`;
 
     if (!formData.authorId) newErrors.authorId = 'Please select an author';
 
