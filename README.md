@@ -2,7 +2,7 @@
 
 Test project for managing book storage.
 
-The API includes CRUD operations for 2 resources: authors and books. It also has a fuzzy search of books by title and a selection of all books by author. For the author entity, caching is implemented using Redis at the endpoints of selecting. Pagination is implemented on all endpoints with a potentially large response. Fuzzy search is implemented using the Levenshtein distance and has 2 implementations: on the database side and on the service side (the implementation can be switched using a toggle). All requests are validated; in case of an error, a correct and understandable description is displayed in the log. The DbUp library is used for migrations. For validation, the FluentValidation library is used.
+The API includes CRUD operations for 2 resources: authors and books. It also has a fuzzy search of books by title and a selection of all books by author. For the author entity, caching is implemented using Redis at the endpoints of selecting. Pagination is implemented on all endpoints with a potentially large response. Fuzzy search is implemented using the Levenshtein distance and has 2 implementations: on the database side and on the service side (the implementation can be switched using a toggle). All requests are validated, in case of an error, a correct and understandable description is displayed in the log. The DbUp library is used for migrations. For validation, the FluentValidation library is used.
 
 Database [schema](./library-management-backend/Resources/Db). 
 
