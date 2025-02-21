@@ -6,14 +6,18 @@ The API includes CRUD operations for 2 resources: authors and books. It also has
 
 Database [./library-management-backend/Resources/Db](schema). 
 
-API [./library-management-backend/Resources/Http](description) and [./library-management-backend/Resources/Postman](postman collection)
+API [description](./library-management-backend/Resources/Http) and [postman collection](./library-management-backend/Resources/Postman)
 
 Each service has its own dockerfile, so to run the entire project, just run the external docker-compose:
 
+```bash
 docker-compose up -d
+```
 
 if an error occurs during startup, you need to remove the frontend and backend services from docker-compose, run postgresql and redis, and then run the frontend and backend locally separately:
 
+```bash
 docker-compose up -d
 dotnet run
 npm start
+```
