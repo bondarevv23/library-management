@@ -1,0 +1,131 @@
+.App {
+  padding: 20px;
+}
+
+nav {
+  margin-bottom: 20px;
+}
+
+nav a {
+  font-weight: 800;
+  font-size:xx-large;
+  margin-right: 30px;
+  text-decoration: none;
+  color: #00438a;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.authors, .books {
+  margin-top: 20px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input {
+  margin-right: 10px;
+  padding: 5px;
+}
+
+button {
+  padding: 5px 10px;
+  margin-right: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.book-form input[type="number"] {
+  width: 100px; /* Smaller width for year input */
+}
+
+.book-detail {
+  padding: 20px;
+}
+
+.book-detail form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+}
+
+.book-detail label {
+  font-weight: bold;
+}
+
+.book-detail input,
+.book-detail select {
+  padding: 5px;
+  width: 100%;
+}
+
+.book-detail input[type="number"] {
+  width: 100px; /* Smaller width for year */
+}
+
+.book-detail button {
+  padding: 5px 10px;
+}
+
+.books {
+  padding: 20px;
+}
+
+.book-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+.clickable {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+.clickable:hover {
+  color: darkblue;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination button {
+  padding: 5px 10px;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

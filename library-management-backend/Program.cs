@@ -45,6 +45,8 @@ var app = builder.Build();
     }
 
     app.MapControllers();
+    
+    app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 }
 
 await app.RunAsync();

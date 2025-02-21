@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using LibraryManagementSystem.Extensions;
 
 using static LibraryManagementSystem.Constants.DatabaseConstants;
+using Npgsql;
 
 namespace LibraryManagementSystem.Repositories;
 
@@ -53,13 +54,16 @@ public class BookRepository(LibraryManagementSystemContext context) : IBookRepos
 
     public async Task<IList<Book>> Search(string query, int pageNumber, int pageSize)
     {
+        string sql = $"SELECT * FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {DEFAULT_LEVENSHTAIN_DISTANCE}";
         return await _context.Books
-            .FromSqlInterpolated($"SELECT * FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, {query}::text) < {DEFAULT_LEVENSHTAIN_DISTANCE}")
+            .FromSqlRaw(sql, query)
             .ToListAsync();
+
     }
 
-    public async Task<int> CountAllByQuery(string searchQuery)
+    public async Task<int> CountAllByQuery(string query)
     {
-        return await _context.IntFromRawSqlAsync($"SELECT * FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {DEFAULT_LEVENSHTAIN_DISTANCE}", searchQuery);
+        string sql = $"SELECT COUNT(*) FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {DEFAULT_LEVENSHTAIN_DISTANCE}";
+        return await _context.IntFromRawSqlAsync(sql, new NpgsqlParameter("@p0", query));
     }
 }

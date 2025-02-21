@@ -1,0 +1,1 @@
+REACT_APP_API_URL - base uri of backend (includes api and version, for example "http://localhost:8080/api/v1")
