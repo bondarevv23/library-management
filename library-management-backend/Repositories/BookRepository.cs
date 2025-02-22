@@ -58,7 +58,8 @@ public class BookRepository(
 
     public async Task<IList<Book>> Search(string query, int pageNumber, int pageSize)
     {
-        string sql = $"SELECT * FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {_settings.BookSearchMaxLevenshteinDistance}";
+        var offset = (pageNumber - 1) * pageSize;
+        string sql = $"SELECT * FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {_settings.BookSearchMaxLevenshteinDistance} LIMIT {pageSize} OFFSET {offset}";
         return await _context.Books
             .FromSqlRaw(sql, query)
             .ToListAsync();
