@@ -47,7 +47,7 @@ function AuthorDetail() {
 
   const fetchAuthor = useCallback(() => {
     return fetchData({
-      endpoint: /authors/${id},
+      endpoint: `/authors/${id}`,
       setLoading,
       setError: setServerError,
       setData: (data) => {
@@ -60,7 +60,7 @@ function AuthorDetail() {
   
   const fetchBooksByAuthor = useCallback(() => {
     return fetchData({
-      endpoint: /authors/${id}/books,
+      endpoint: `/authors/${id}/books`,
       setLoading,
       setError: setServerError,
       setData: (data) => setBooks(data || []),
