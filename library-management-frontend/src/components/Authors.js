@@ -14,7 +14,7 @@ function Authors() {
 
   useEffect(() => {
     fetchAuthors();
-  }, [pageNumber]);
+  }, [pageNumber, fetchAuthors]);
 
   const fetchAuthors = () => fetchData({
     endpoint: '/authors',
