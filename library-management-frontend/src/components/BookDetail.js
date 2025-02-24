@@ -59,7 +59,7 @@ function BookDetail() {
       setData: (data) => setAuthors(data.data || []),
       errorMessage: 'Failed to fetch authors',
     });
-  }, [pageSize, setLoading, setServerError, setAuthors])
+  }, [setLoading, setServerError, setAuthors])
 
   useEffect(() => {
     fetchAllAuthors();
