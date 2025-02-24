@@ -43,7 +43,7 @@ function AuthorDetail() {
       setBooks([]);
       setIsEditing(true);
     }
-  }, [id]);
+  }, [id, fetchAuthor, fetchBooksByAuthor]);
 
   const fetchAuthor = useCallback(() => {
     return fetchData({
