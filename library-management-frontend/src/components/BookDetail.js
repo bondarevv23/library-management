@@ -17,7 +17,6 @@ function BookDetail() {
 
   const validateForm = () => {
     const newErrors = {};
-    const currentYear = new Date().getFullYear();
     const pubYear = parseInt(formData.publicationYear, 10);
 
     if (!formData.title.trim()) newErrors.title = 'Title is required';

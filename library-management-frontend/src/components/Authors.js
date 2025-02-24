@@ -25,7 +25,7 @@ function Authors() {
         },
         errorMessage: 'Failed to fetch authors',
       });
-  });
+  }, [pageNumber, setLoading, setError, setAuthors, setPageNumber, setTotalPages]);
 
   useEffect(() => {
     fetchAuthors();
