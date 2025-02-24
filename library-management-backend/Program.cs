@@ -16,6 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
     var settings = builder.Configuration.GetSection(APPLICATION_SETTINGS_PREFIX_NAME).Get<ApplicationSettings>();
     builder.Services.AddSingleton(settings);
 
+    builder.Logging.AddConsole();
+
     builder.Services.AddDbContext<LibraryManagementSystemContext>(options =>
       options.UseNpgsql(builder.Configuration.GetConnectionString(DEFAULT_CONNECTION)));
     

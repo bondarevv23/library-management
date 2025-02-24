@@ -1,5 +1,3 @@
-CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
-
 CREATE TABLE authors
 (
     id            BIGSERIAL    NOT NULL PRIMARY KEY,
