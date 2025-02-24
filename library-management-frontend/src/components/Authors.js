@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles.css'; 
 import { PAGE_SIZES } from '../constants';
@@ -12,17 +12,19 @@ function Authors() {
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const fetchAuthors = () => fetchData({
-    endpoint: '/authors',
-    params: { pageNumber, pageSize: PAGE_SIZES.DEFAULT },
-    setLoading,
-    setError,
-    setData: (data) => {
-      setAuthors(data.data);
-      setPageNumber(data.pageNumber);
-      setTotalPages(data.totalPages);
-    },
-    errorMessage: 'Failed to fetch authors',
+  const fetchAuthors = useCallback(() => {
+      return fetchData({
+        endpoint: '/authors',
+        params: { pageNumber, pageSize: PAGE_SIZES.DEFAULT },
+        setLoading,
+        setError,
+        setData: (data) => {
+          setAuthors(data.data);
+          setPageNumber(data.pageNumber);
+          setTotalPages(data.totalPages);
+        },
+        errorMessage: 'Failed to fetch authors',
+      });
   });
 
   useEffect(() => {
