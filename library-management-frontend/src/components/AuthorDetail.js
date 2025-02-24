@@ -45,24 +45,28 @@ function AuthorDetail() {
     }
   }, [id]);
 
-  const fetchAuthor = () => fetchData({
-    endpoint: `/authors/${id}`,
-    setLoading,
-    setError: setServerError,
-    setData: (data) => {
-      setAuthor(data);
-      setFormData({ name: data.name, dateOfBirth: data.dateOfBirth.split('T')[0] });
-    },
-    errorMessage: 'Failed to fetch author details',
-  });
-
-  const fetchBooksByAuthor = () => fetchData({
-    endpoint: `/authors/${id}/books`,
-    setLoading,
-    setError: setServerError,
-    setData: (data) => setBooks(data || []),
-    errorMessage: 'Failed to fetch books by author',
-  });
+  const fetchAuthor = useCallback(() => {
+    return fetchData({
+      endpoint: /authors/${id},
+      setLoading,
+      setError: setServerError,
+      setData: (data) => {
+        setAuthor(data);
+        setFormData({ name: data.name, dateOfBirth: data.dateOfBirth.split('T')[0] });
+      },
+      errorMessage: 'Failed to fetch author details',
+    });
+  }, [id]);
+  
+  const fetchBooksByAuthor = useCallback(() => {
+    return fetchData({
+      endpoint: /authors/${id}/books,
+      setLoading,
+      setError: setServerError,
+      setData: (data) => setBooks(data || []),
+      errorMessage: 'Failed to fetch books by author',
+    });
+  }, [id]);
 
   const handleInputChange = ({ target: { name, value } }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
