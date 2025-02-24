@@ -32,19 +32,7 @@ function AuthorDetail() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-  useEffect(() => {
-    if (id) {
-      fetchAuthor();
-      fetchBooksByAuthor();
-    } else {
-      setFormData(INITIAL_AUTHOR_FORM);
-      setAuthor(null);
-      setBooks([]);
-      setIsEditing(true);
-    }
-  }, [id, fetchAuthor, fetchBooksByAuthor]);
-
+  
   const fetchAuthor = useCallback(() => {
     return fetchData({
       endpoint: `/authors/${id}`,
@@ -67,6 +55,18 @@ function AuthorDetail() {
       errorMessage: 'Failed to fetch books by author',
     });
   }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      fetchAuthor();
+      fetchBooksByAuthor();
+    } else {
+      setFormData(INITIAL_AUTHOR_FORM);
+      setAuthor(null);
+      setBooks([]);
+      setIsEditing(true);
+    }
+  }, [id, fetchAuthor, fetchBooksByAuthor]);
 
   const handleInputChange = ({ target: { name, value } }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
