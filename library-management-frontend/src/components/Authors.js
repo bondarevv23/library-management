@@ -12,10 +12,6 @@ function Authors() {
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    fetchAuthors();
-  }, [pageNumber, fetchAuthors]);
-
   const fetchAuthors = () => fetchData({
     endpoint: '/authors',
     params: { pageNumber, pageSize: PAGE_SIZES.DEFAULT },
@@ -28,6 +24,10 @@ function Authors() {
     },
     errorMessage: 'Failed to fetch authors',
   });
+
+  useEffect(() => {
+    fetchAuthors();
+  }, [pageNumber, fetchAuthors]);
 
   const handleDelete = (id) => {
     if (!window.confirm('Are you sure you want to delete this author?')) return;
