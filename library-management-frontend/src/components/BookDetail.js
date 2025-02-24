@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles.css';
 import { INITIAL_BOOK_FORM, PAGE_SIZES } from '../constants';
@@ -33,6 +33,34 @@ function BookDetail() {
     return Object.keys(newErrors).length === 0;
   };
 
+  const fetchBook = useCallback(() => {
+    return fetchData({
+      endpoint: `/books/${id}`,
+      setLoading,
+      setError: setServerError,
+      setData: (data) => {
+        setBook(data);
+        setFormData({
+          title: data.title,
+          publicationYear: data.publicationYear.toString(),
+          authorId: data.authorId,
+        });
+      },
+      errorMessage: 'Failed to fetch book details',
+    });
+  }, [id, setLoading, setServerError, setBook, setFormData])
+
+  const fetchAllAuthors = useCallback(() => {
+    return fetchData({
+      endpoint: '/authors',
+      params: { pageSize: PAGE_SIZES.LARGE },
+      setLoading,
+      setError: setServerError,
+      setData: (data) => setAuthors(data.data || []),
+      errorMessage: 'Failed to fetch authors',
+    });
+  }, [pageSize, setLoading, setServerError, setAuthors])
+
   useEffect(() => {
     fetchAllAuthors();
     if (id) fetchBook();
@@ -41,31 +69,7 @@ function BookDetail() {
       setBook(null);
       setIsEditing(true);
     }
-  }, [id]);
-
-  const fetchBook = () => fetchData({
-    endpoint: `/books/${id}`,
-    setLoading,
-    setError: setServerError,
-    setData: (data) => {
-      setBook(data);
-      setFormData({
-        title: data.title,
-        publicationYear: data.publicationYear.toString(),
-        authorId: data.authorId,
-      });
-    },
-    errorMessage: 'Failed to fetch book details',
-  });
-
-  const fetchAllAuthors = () => fetchData({
-    endpoint: '/authors',
-    params: { pageSize: PAGE_SIZES.LARGE },
-    setLoading,
-    setError: setServerError,
-    setData: (data) => setAuthors(data.data || []),
-    errorMessage: 'Failed to fetch authors',
-  });
+  }, [id, fetchAllAuthors, fetchBook]);
 
   const handleInputChange = ({ target: { name, value } }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
