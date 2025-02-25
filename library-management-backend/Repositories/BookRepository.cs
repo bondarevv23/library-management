@@ -25,7 +25,12 @@ public class BookRepository(
 
     public async Task<ICollection<Book>> FindAll(int pageNumber, int pageSize)
     {
-        return await _context.Books.ToListAsync();
+        var offset = (pageNumber - 1) * pageSize;
+        return await _context.Books
+            .OrderBy(b => b.PostId)
+            .Skip(offset)
+            .Take(pageSize)
+            .ToListAsync();
     }
 
     public async Task<Book?> FindById(long bookId)
