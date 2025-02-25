@@ -27,7 +27,7 @@ public class BookRepository(
     {
         var offset = (pageNumber - 1) * pageSize;
         return await _context.Books
-            .OrderBy(b => b.PostId)
+            .OrderBy(b => b.Id)
             .Skip(offset)
             .Take(pageSize)
             .ToListAsync();
