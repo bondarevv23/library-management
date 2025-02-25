@@ -18,6 +18,7 @@ function BookDetail() {
   const validateForm = () => {
     const newErrors = {};
     const pubYear = parseInt(formData.publicationYear, 10);
+    const currentYear = new Date().getFullYear();
 
     if (!formData.title.trim()) newErrors.title = 'Title is required';
     else if (formData.title.length === 0) newErrors.title = 'Title must be at least 1 characters long';
@@ -26,7 +27,7 @@ function BookDetail() {
     if (!formData.publicationYear) newErrors.publicationYear = 'Publication Year is required';
     else if (isNaN(pubYear)) newErrors.publicationYear = 'Publication Year must be a valid number';
     else if (pubYear <= 0) newErrors.publicationYear = `Year must be positive`;
-    else if (pubYear >= new Date().getFullYear) newErrors.publicationYear = `Year must not be in future`;
+    else if (pubYear > currentYear) newErrors.publicationYear = `Year must not be in future`;
 
     if (!formData.authorId) newErrors.authorId = 'Please select an author';
 
