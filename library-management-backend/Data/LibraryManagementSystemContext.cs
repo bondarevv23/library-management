@@ -5,14 +5,10 @@ namespace LibraryManagementSystem.Data;
 
 public partial class LibraryManagementSystemContext : DbContext
 {
-    public LibraryManagementSystemContext()
-    {
-    }
+    public LibraryManagementSystemContext() { }
 
     public LibraryManagementSystemContext(DbContextOptions<LibraryManagementSystemContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     public virtual DbSet<Author> Authors { get; set; }
 
@@ -22,16 +18,12 @@ public partial class LibraryManagementSystemContext : DbContext
     {
         modelBuilder.Entity<Author>(entity =>
         {
-            entity
-                .HasKey(e => e.Id)
-                .HasName("authors_pkey");
+            entity.HasKey(e => e.Id).HasName("authors_pkey");
         });
 
         modelBuilder.Entity<Book>(entity =>
         {
-            entity
-                .HasKey(e => e.Id)
-                .HasName("books_pkey");
+            entity.HasKey(e => e.Id).HasName("books_pkey");
 
             entity
                 .HasOne(d => d.Author)

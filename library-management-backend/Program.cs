@@ -5,28 +5,31 @@ using LibraryManagementSystem.Repositories;
 using LibraryManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
-
 using static LibraryManagementSystem.Constants.ConfigurationConstants;
 
 var builder = WebApplication.CreateBuilder(args);
+
 {
     builder.Services.AddControllers();
     builder.Services.AddSwaggerGen();
 
-    var settings = builder.Configuration.GetSection(APPLICATION_SETTINGS_PREFIX_NAME).Get<ApplicationSettings>();
+    var settings = builder
+        .Configuration.GetSection(APPLICATION_SETTINGS_PREFIX_NAME)
+        .Get<ApplicationSettings>();
     builder.Services.AddSingleton(settings);
 
     builder.Logging.AddConsole();
 
     builder.Services.AddDbContext<LibraryManagementSystemContext>(options =>
-      options.UseNpgsql(builder.Configuration.GetConnectionString(DEFAULT_CONNECTION)));
-    
+        options.UseNpgsql(builder.Configuration.GetConnectionString(DEFAULT_CONNECTION))
+    );
+
     var redisConfig = builder.Configuration.GetSection(REDIS_CONNECTION_STRING).Value;
     var redis = await ConnectionMultiplexer.ConnectAsync(redisConfig!);
-    
+
     builder.Services.AddSingleton<IConnectionMultiplexer>(redis);
     builder.Services.AddSingleton<ICacheService, CacheService>();
-      
+
     builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
     builder.Services.AddScoped<IBookRepository, BookRepository>();
     builder.Services.AddScoped<IAuthorService, AuthorService>();
@@ -39,6 +42,7 @@ var builder = WebApplication.CreateBuilder(args);
 }
 
 var app = builder.Build();
+
 {
     DbInitializer.Initialize(app.Configuration.GetConnectionString(DEFAULT_CONNECTION)!);
 
@@ -51,7 +55,7 @@ var app = builder.Build();
     }
 
     app.MapControllers();
-    
+
     app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 }
 

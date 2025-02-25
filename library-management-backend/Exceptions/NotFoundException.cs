@@ -8,7 +8,5 @@ public class NotFoundException(string details)
     )
 {
     public NotFoundException(string tableName, long id)
-        : this($"No '{tableName}' found by id = '{id}'")
-    {
-    }
+        : this($"No '{tableName}' found by id = '{id}'") { }
 }

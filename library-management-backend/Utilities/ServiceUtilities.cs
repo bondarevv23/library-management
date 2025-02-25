@@ -24,8 +24,10 @@ public static class ServiceUtilities
 
     public static void EnrichErrorLogDescriptionWithOperationDetails(
         LibraryManagementSystemException exception,
-        IHasOperationDetails request)
+        IHasOperationDetails request
+    )
     {
-        exception.LogDescription = $"{request.OperationDetails}: failed with error \"{exception.LogDescription}\"";
+        exception.LogDescription =
+            $"{request.OperationDetails}: failed with error \"{exception.LogDescription}\"";
     }
 }

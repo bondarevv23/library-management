@@ -1,8 +1,3 @@
 namespace LibraryManagementSystem.Dto.Requests;
 
-public record UpdateBookRequestDto(
-    string? Title,
-    int? PublicationYear
-)
-{
-}
+public record UpdateBookRequestDto(string? Title, int? PublicationYear) { }

@@ -5,6 +5,4 @@ public class ValidationException(string details)
         StatusCodes.Status400BadRequest,
         "Request parameters are not valid",
         details
-    )
-{
-}
+    ) { }

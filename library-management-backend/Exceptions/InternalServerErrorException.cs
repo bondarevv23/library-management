@@ -5,6 +5,4 @@ public class InternalServerErrorException(string details)
         StatusCodes.Status500InternalServerError,
         "Internal server error",
         details
-    )
-{
-}
+    ) { }

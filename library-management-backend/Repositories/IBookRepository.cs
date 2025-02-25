@@ -19,6 +19,6 @@ public interface IBookRepository
     Task<IList<Book>> FindAllByAuthorId(long authorId);
 
     Task<IList<Book>> Search(string query, int pageNumber, int pageSize);
-    
+
     Task<int> CountAllByQuery(string searchQuery);
 }

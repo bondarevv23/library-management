@@ -11,7 +11,7 @@ public static class ValidationConstants
     public const string BODY_AUTHOR_ID_FIELD = "body.authorId";
     public const string BODY_FIELD = "body";
     public const string URI_VARIABLE_QUERY_FIELD = "query";
-    
+
     public const string ID_PATH_VARIABLE_FIELD = "id";
     public const string PAGE_NUMBER_PATH_VARIABLE_FIELD = "pageNumber";
     public const string PAGE_SIZE_PATH_VARIABLE_FIELD = "pageSize";
@@ -29,5 +29,6 @@ public static class ValidationConstants
     public const string POSITIVE_CONSTRAINT = "must be positive";
     public const string POSITIVE_VALID_LONG_CONSTRAINT = "must be a positive valid long";
     public const string POSITIVE_VALID_INT_CONSTRAINT = "must be a valid positive int";
-    public const string POSITIVE_VALID_INT_MULTIPLE_10 = "must be a valid positive int, multiple of 10";
+    public const string POSITIVE_VALID_INT_MULTIPLE_10 =
+        "must be a valid positive int, multiple of 10";
 }

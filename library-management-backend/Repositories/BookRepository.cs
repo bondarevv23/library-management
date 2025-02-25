@@ -1,17 +1,14 @@
 using LibraryManagementSystem.Data;
+using LibraryManagementSystem.Extensions;
 using LibraryManagementSystem.Models;
 using Microsoft.EntityFrameworkCore;
-using LibraryManagementSystem.Extensions;
-
-using static LibraryManagementSystem.Constants.DatabaseConstants;
 using Npgsql;
+using static LibraryManagementSystem.Constants.DatabaseConstants;
 
 namespace LibraryManagementSystem.Repositories;
 
-public class BookRepository(
-    ApplicationSettings settings,
-    LibraryManagementSystemContext context
-) : IBookRepository
+public class BookRepository(ApplicationSettings settings, LibraryManagementSystemContext context)
+    : IBookRepository
 {
     private readonly ApplicationSettings _settings = settings;
     private readonly LibraryManagementSystemContext _context = context;
@@ -26,11 +23,7 @@ public class BookRepository(
     public async Task<ICollection<Book>> FindAll(int pageNumber, int pageSize)
     {
         var offset = (pageNumber - 1) * pageSize;
-        return await _context.Books
-            .OrderBy(b => b.Id)
-            .Skip(offset)
-            .Take(pageSize)
-            .ToListAsync();
+        return await _context.Books.OrderBy(b => b.Id).Skip(offset).Take(pageSize).ToListAsync();
     }
 
     public async Task<Book?> FindById(long bookId)
@@ -64,16 +57,15 @@ public class BookRepository(
     public async Task<IList<Book>> Search(string query, int pageNumber, int pageSize)
     {
         var offset = (pageNumber - 1) * pageSize;
-        string sql = $"SELECT * FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {_settings.BookSearchMaxLevenshteinDistance} LIMIT {pageSize} OFFSET {offset}";
-        return await _context.Books
-            .FromSqlRaw(sql, query)
-            .ToListAsync();
-
+        string sql =
+            $"SELECT * FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {_settings.BookSearchMaxLevenshteinDistance} LIMIT {pageSize} OFFSET {offset}";
+        return await _context.Books.FromSqlRaw(sql, query).ToListAsync();
     }
 
     public async Task<int> CountAllByQuery(string query)
     {
-        string sql = $"SELECT COUNT(*) FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {_settings.BookSearchMaxLevenshteinDistance}";
+        string sql =
+            $"SELECT COUNT(*) FROM {TABLE_NAME_BOOKS} AS b WHERE levenshtein(b.title::text, @p0::text) < {_settings.BookSearchMaxLevenshteinDistance}";
         return await _context.IntFromRawSqlAsync(sql, new NpgsqlParameter("@p0", query));
     }
 }

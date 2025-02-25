@@ -1,6 +1,7 @@
-using StackExchange.Redis;
-using LibraryManagementSystem.Services;
 using Newtonsoft.Json;
+using StackExchange.Redis;
+
+namespace LibraryManagementSystem.Services;
 
 public class CacheService(IConnectionMultiplexer redis) : ICacheService
 {
@@ -15,10 +16,8 @@ public class CacheService(IConnectionMultiplexer redis) : ICacheService
     public async Task<T?> Get<T>(string key, string hashKey)
     {
         var redisValue = await _database.HashGetAsync(key, hashKey);
-        
-        return redisValue.IsNullOrEmpty
-            ? default
-            : JsonConvert.DeserializeObject<T>(redisValue!);
+
+        return redisValue.IsNullOrEmpty ? default : JsonConvert.DeserializeObject<T>(redisValue!);
     }
 
     public async Task DeleteByKey(string key)

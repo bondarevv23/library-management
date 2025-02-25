@@ -7,7 +7,8 @@ public static class DbContextExtensions
     public static async Task<int> IntFromRawSqlAsync(
         this DbContext dbContext,
         string sql,
-        params object[] parameters)
+        params object[] parameters
+    )
     {
         if (string.IsNullOrEmpty(sql))
             throw new ArgumentNullException(nameof(sql));
@@ -27,7 +28,7 @@ public static class DbContextExtensions
                 }
 
                 var result = await command.ExecuteScalarAsync();
-                
+
                 if (result == null || result == DBNull.Value)
                     return 0;
 

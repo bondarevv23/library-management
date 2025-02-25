@@ -22,7 +22,5 @@ public record PagedResponseDto<T>(
             totalRecords,
             (totalRecords + pageSize - 1) / pageSize,
             data
-        )
-    {
-    }
+        ) { }
 }

@@ -7,7 +7,6 @@ public class FindAllBooksRequestModelValidator : AbstractValidator<FindAllBooksR
 {
     public FindAllBooksRequestModelValidator()
     {
-        RuleFor(request => request)
-            .SetValidator(new IPagableValidator());
+        RuleFor(request => request).SetValidator(new IPagableValidator());
     }
 }

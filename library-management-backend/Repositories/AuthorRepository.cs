@@ -17,8 +17,8 @@ public class AuthorRepository(LibraryManagementSystemContext context) : IAuthorR
 
     public async Task<IList<Author>> FindAll(int pageNumber, int pageSize)
     {
-        return await _context.Authors
-            .OrderBy(x => x.Id)
+        return await _context
+            .Authors.OrderBy(x => x.Id)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();

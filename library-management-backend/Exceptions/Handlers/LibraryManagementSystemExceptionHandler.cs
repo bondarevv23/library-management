@@ -3,7 +3,10 @@ using System.Text.Json;
 
 namespace LibraryManagementSystem.Exceptions.Handlers;
 
-public class ApplicationExceptionHandler(RequestDelegate next, ILogger<ApplicationExceptionHandler> logger)
+public class ApplicationExceptionHandler(
+    RequestDelegate next,
+    ILogger<ApplicationExceptionHandler> logger
+)
 {
     private readonly RequestDelegate _next = next;
 
@@ -26,7 +29,7 @@ public class ApplicationExceptionHandler(RequestDelegate next, ILogger<Applicati
             {
                 code = context.Response.StatusCode,
                 message = applicationException.Message,
-                timestamp = DateTime.Now
+                timestamp = DateTime.Now,
             };
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));
@@ -42,7 +45,7 @@ public class ApplicationExceptionHandler(RequestDelegate next, ILogger<Applicati
             {
                 code = context.Response.StatusCode,
                 message = "An unexpected error occurred.",
-                timestamp = DateTime.Now
+                timestamp = DateTime.Now,
             };
 
             await context.Response.WriteAsync(JsonSerializer.Serialize(response));

@@ -8,5 +8,6 @@ public static class ValidationUtilities
 
     public static bool BePositiveValidInt(string? value) => int.TryParse(value, out int _);
 
-    public static bool BePositiveMultipleOf10Int(string? value) => int.TryParse(value, out int result) && result % 10 == 0;
+    public static bool BePositiveMultipleOf10Int(string? value) =>
+        int.TryParse(value, out int result) && result % 10 == 0;
 }

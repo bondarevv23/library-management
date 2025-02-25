@@ -7,7 +7,6 @@ public class DeleteAuthorByIdRequestModelValidator : AbstractValidator<DeleteAut
 {
     public DeleteAuthorByIdRequestModelValidator()
     {
-        RuleFor(request => request)
-            .SetValidator(new IHasIdPathVariableValidator());
+        RuleFor(request => request).SetValidator(new IHasIdPathVariableValidator());
     }
 }

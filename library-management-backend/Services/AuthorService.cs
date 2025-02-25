@@ -5,11 +5,10 @@ using LibraryManagementSystem.Dto.Responses;
 using LibraryManagementSystem.Exceptions;
 using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Repositories;
-using static LibraryManagementSystem.Constants.ValidationConstants;
-using static LibraryManagementSystem.Constants.RedisConstants;
 using static LibraryManagementSystem.Constants.DatabaseConstants;
+using static LibraryManagementSystem.Constants.RedisConstants;
+using static LibraryManagementSystem.Constants.ValidationConstants;
 using static LibraryManagementSystem.Utilities.ServiceUtilities;
-using Newtonsoft.Json;
 
 namespace LibraryManagementSystem.Services;
 
@@ -48,7 +47,9 @@ public class AuthorService(
         }
     }
 
-    public async Task<PagedResponseDto<AuthorResponseDto>> FindAll(FindAllAuthorsRequestModel request)
+    public async Task<PagedResponseDto<AuthorResponseDto>> FindAll(
+        FindAllAuthorsRequestModel request
+    )
     {
         try
         {
@@ -56,8 +57,12 @@ public class AuthorService(
             EnrichWithPagableData(request);
             var pageNumber = request.PageNumber!.Value;
             var pageSize = request.PageSize!.Value;
-            var authorDtos = await GetAuthorsDtoFromCache(pageNumber: pageNumber, pageSize: pageSize) ??
-                             await GetAuthorsDtoFromDatabaseAndSaveToCache(pageNumber: pageNumber, pageSize: pageSize);
+            var authorDtos =
+                await GetAuthorsDtoFromCache(pageNumber: pageNumber, pageSize: pageSize)
+                ?? await GetAuthorsDtoFromDatabaseAndSaveToCache(
+                    pageNumber: pageNumber,
+                    pageSize: pageSize
+                );
             return authorDtos;
         }
         catch (LibraryManagementSystemException exception)
@@ -122,7 +127,9 @@ public class AuthorService(
         }
     }
 
-    public async Task<IList<BookResponseDto>> FindAllBooksById(FindAllBooksByAuthorIdRequestModel request)
+    public async Task<IList<BookResponseDto>> FindAllBooksById(
+        FindAllBooksByAuthorIdRequestModel request
+    )
     {
         try
         {
@@ -142,11 +149,17 @@ public class AuthorService(
 
     private async Task SaveToCache(PagedResponseDto<AuthorResponseDto> authorsDto)
     {
-        var hashKey = BuildAuthorsHashKey(pageNumber: authorsDto.PageNumber, pageSize: authorsDto.PageSize);
+        var hashKey = BuildAuthorsHashKey(
+            pageNumber: authorsDto.PageNumber,
+            pageSize: authorsDto.PageSize
+        );
         await _cache.Save(AUTHORS_REDIS_KEY, hashKey, authorsDto);
     }
 
-    private async Task<PagedResponseDto<AuthorResponseDto>?> GetAuthorsDtoFromCache(int pageNumber, int pageSize)
+    private async Task<PagedResponseDto<AuthorResponseDto>?> GetAuthorsDtoFromCache(
+        int pageNumber,
+        int pageSize
+    )
     {
         var hashKey = BuildAuthorsHashKey(pageNumber: pageNumber, pageSize: pageSize);
         return await _cache.Get<PagedResponseDto<AuthorResponseDto>>(AUTHORS_REDIS_KEY, hashKey);

@@ -7,7 +7,6 @@ public class FindBookByIdRequestModelValidator : AbstractValidator<FindBookByIdR
 {
     public FindBookByIdRequestModelValidator()
     {
-        RuleFor(request => request)
-            .SetValidator(new IHasIdPathVariableValidator());
+        RuleFor(request => request).SetValidator(new IHasIdPathVariableValidator());
     }
 }

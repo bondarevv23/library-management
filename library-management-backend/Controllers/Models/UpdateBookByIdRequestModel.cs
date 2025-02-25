@@ -8,8 +8,9 @@ public class UpdateBookByIdRequestModel : IHasIdPathVariable, IHasOperationDetai
     public string? IdPathVariable { get; set; }
 
     public long? Id { get; set; }
-    
+
     public UpdateBookRequestDto? Body { get; set; }
 
-    public string OperationDetails => $"Update '{TABLE_NAME_BOOKS}' record by id = '{IdPathVariable}'";
+    public string OperationDetails =>
+        $"Update '{TABLE_NAME_BOOKS}' record by id = '{IdPathVariable}'";
 }

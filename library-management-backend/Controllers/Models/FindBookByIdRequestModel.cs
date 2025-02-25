@@ -8,5 +8,6 @@ public class FindBookByIdRequestModel : IHasIdPathVariable, IHasOperationDetails
 
     public long? Id { set; get; }
 
-    public string OperationDetails => $"Find '{TABLE_NAME_BOOKS}' record by id = '{IdPathVariable}'";
+    public string OperationDetails =>
+        $"Find '{TABLE_NAME_BOOKS}' record by id = '{IdPathVariable}'";
 }

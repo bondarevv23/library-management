@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.Controllers;
 
-
 [ApiController]
 [Route("api/v1/authors")]
 public class AuthorsController(IAuthorService service) : ControllerBase
@@ -23,14 +22,18 @@ public class AuthorsController(IAuthorService service) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<PagedResponseDto<AuthorResponseDto>>> FindAll(
         [FromQuery] string? pageNumber,
-        [FromQuery] string? pageSize)
+        [FromQuery] string? pageSize
+    )
     {
-        return Ok(await _service.FindAll(new FindAllAuthorsRequestModel
-        {
-            PageNumberPathVariable = pageNumber,
-            PageSizePathVariable = pageSize
-        }
-        ));
+        return Ok(
+            await _service.FindAll(
+                new FindAllAuthorsRequestModel
+                {
+                    PageNumberPathVariable = pageNumber,
+                    PageSizePathVariable = pageSize,
+                }
+            )
+        );
     }
 
     [HttpGet("{id}")]
@@ -40,21 +43,32 @@ public class AuthorsController(IAuthorService service) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateById([FromRoute] string? id, [FromBody] AuthorRequestDto body)
+    public async Task<ActionResult> UpdateById(
+        [FromRoute] string? id,
+        [FromBody] AuthorRequestDto body
+    )
     {
-        await _service.UpdateById(new UpdateAuthorByIdRequestModel { IdPathVariable = id, Body = body });
+        await _service.UpdateById(
+            new UpdateAuthorByIdRequestModel { IdPathVariable = id, Body = body }
+        );
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<AuthorResponseDto>> DeleteById([FromRoute] string? id)
     {
-        return Ok(await _service.DeleteById(new DeleteAuthorByIdRequestModel { IdPathVariable = id }));
+        return Ok(
+            await _service.DeleteById(new DeleteAuthorByIdRequestModel { IdPathVariable = id })
+        );
     }
 
     [HttpGet("{id}/books")]
     public async Task<ActionResult<IList<BookResponseDto>>> FindAllBooksById([FromRoute] string? id)
     {
-        return Ok(await _service.FindAllBooksById(new FindAllBooksByAuthorIdRequestModel { IdPathVariable = id }));
+        return Ok(
+            await _service.FindAllBooksById(
+                new FindAllBooksByAuthorIdRequestModel { IdPathVariable = id }
+            )
+        );
     }
 }

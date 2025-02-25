@@ -7,7 +7,6 @@ public class FindAuthorByIdRequestModelValidator : AbstractValidator<FindAuthorB
 {
     public FindAuthorByIdRequestModelValidator()
     {
-        RuleFor(request => request)
-            .SetValidator(new IHasIdPathVariableValidator());
+        RuleFor(request => request).SetValidator(new IHasIdPathVariableValidator());
     }
 }

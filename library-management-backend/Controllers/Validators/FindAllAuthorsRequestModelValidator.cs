@@ -7,7 +7,6 @@ public class FindAllAuthorsRequestModelValidator : AbstractValidator<FindAllAuth
 {
     public FindAllAuthorsRequestModelValidator()
     {
-        RuleFor(request => request)
-            .SetValidator(new IPagableValidator());
+        RuleFor(request => request).SetValidator(new IPagableValidator());
     }
 }

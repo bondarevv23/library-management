@@ -7,7 +7,6 @@ public class DeleteBookByIdRequestModelValidator : AbstractValidator<DeleteBookB
 {
     public DeleteBookByIdRequestModelValidator()
     {
-        RuleFor(request => request)
-            .SetValidator(new IHasIdPathVariableValidator());
+        RuleFor(request => request).SetValidator(new IHasIdPathVariableValidator());
     }
 }

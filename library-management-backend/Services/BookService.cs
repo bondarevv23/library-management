@@ -1,17 +1,16 @@
 using System.Web;
 using AutoMapper;
 using Fastenshtein;
-using Microsoft.Extensions.Options;
-using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Controllers.Models;
+using LibraryManagementSystem.Data;
 using LibraryManagementSystem.Dto.Requests;
 using LibraryManagementSystem.Dto.Responses;
 using LibraryManagementSystem.Exceptions;
 using LibraryManagementSystem.Models;
 using LibraryManagementSystem.Repositories;
-
-using static LibraryManagementSystem.Constants.ValidationConstants;
+using Microsoft.Extensions.Options;
 using static LibraryManagementSystem.Constants.DatabaseConstants;
+using static LibraryManagementSystem.Constants.ValidationConstants;
 using static LibraryManagementSystem.Utilities.ServiceUtilities;
 
 namespace LibraryManagementSystem.Services;
@@ -140,8 +139,16 @@ public class BookService(
             var pageNumber = request.PageNumber!.Value;
             var pageSize = request.PageSize!.Value;
             return _settings.PerformFuzzySearchInMemory
-                ? await FuzzySearchInMemory(searchQuery: searchQuery, pageNumber: pageNumber, pageSize: pageSize)
-                : await FuzzySearchInDatabase(searchQuery: searchQuery, pageNumber: pageNumber, pageSize: pageSize);
+                ? await FuzzySearchInMemory(
+                    searchQuery: searchQuery,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize
+                )
+                : await FuzzySearchInDatabase(
+                    searchQuery: searchQuery,
+                    pageNumber: pageNumber,
+                    pageSize: pageSize
+                );
         }
         catch (LibraryManagementSystemException exception)
         {
@@ -149,7 +156,7 @@ public class BookService(
             throw;
         }
     }
-    
+
     private async Task<PagedResponseDto<BookResponseDto>> FuzzySearchInMemory(
         string searchQuery,
         int pageNumber,
@@ -167,7 +174,10 @@ public class BookService(
             var bucketBooks = await _repository.FindAll(i, fuzzySearchBucketSize);
             foreach (var book in bucketBooks)
             {
-                if (levenshteinQuery.DistanceFrom(book.Title) < _settings.BookSearchMaxLevenshteinDistance)
+                if (
+                    levenshteinQuery.DistanceFrom(book.Title)
+                    < _settings.BookSearchMaxLevenshteinDistance
+                )
                 {
                     foundBooksCount++;
                     if (pageNumber == 1)
@@ -189,14 +199,18 @@ public class BookService(
             pageNumber: pageNumber
         );
     }
-    
+
     private async Task<PagedResponseDto<BookResponseDto>> FuzzySearchInDatabase(
         string searchQuery,
         int pageNumber,
         int pageSize
     )
     {
-        var books = await _repository.Search(query: searchQuery, pageNumber: pageNumber, pageSize: pageSize);
+        var books = await _repository.Search(
+            query: searchQuery,
+            pageNumber: pageNumber,
+            pageSize: pageSize
+        );
         var totalRecordsCount = await _repository.CountAllByQuery(searchQuery);
         var dtos = books.Select(_mapper.Map<BookResponseDto>).ToList();
         return new PagedResponseDto<BookResponseDto>(

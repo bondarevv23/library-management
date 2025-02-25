@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryManagementSystem.Controllers;
 
-
 [ApiController]
 [Route("api/v1/books")]
 public class BooksController(IBookService service) : ControllerBase
@@ -23,14 +22,18 @@ public class BooksController(IBookService service) : ControllerBase
     [HttpGet]
     public async Task<ActionResult<PagedResponseDto<BookResponseDto>>> FindAll(
         [FromQuery] string? pageNumber,
-        [FromQuery] string? pageSize)
+        [FromQuery] string? pageSize
+    )
     {
-        return Ok(await _service.FindAll(new FindAllBooksRequestModel
-        {
-            PageNumberPathVariable = pageNumber,
-            PageSizePathVariable = pageSize
-        }
-        ));
+        return Ok(
+            await _service.FindAll(
+                new FindAllBooksRequestModel
+                {
+                    PageNumberPathVariable = pageNumber,
+                    PageSizePathVariable = pageSize,
+                }
+            )
+        );
     }
 
     [HttpGet("{id}")]
@@ -40,21 +43,32 @@ public class BooksController(IBookService service) : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateById([FromRoute] string? id, [FromBody] UpdateBookRequestDto body)
+    public async Task<ActionResult> UpdateById(
+        [FromRoute] string? id,
+        [FromBody] UpdateBookRequestDto body
+    )
     {
-        await _service.UpdateById(new UpdateBookByIdRequestModel { IdPathVariable = id, Body = body });
+        await _service.UpdateById(
+            new UpdateBookByIdRequestModel { IdPathVariable = id, Body = body }
+        );
         return NoContent();
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult<BookResponseDto>> DeleteById([FromRoute] string? id)
     {
-        return Ok(await _service.DeleteById(new DeleteBookByIdRequestModel { IdPathVariable = id }));
+        return Ok(
+            await _service.DeleteById(new DeleteBookByIdRequestModel { IdPathVariable = id })
+        );
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult<PagedResponseDto<BookResponseDto>>> Search([FromQuery] string? query)
+    public async Task<ActionResult<PagedResponseDto<BookResponseDto>>> Search(
+        [FromQuery] string? query
+    )
     {
-        return Ok(await _service.Search(new SearchBooksRequestModel { UrlEncodedSearchQuery = query }));
+        return Ok(
+            await _service.Search(new SearchBooksRequestModel { UrlEncodedSearchQuery = query })
+        );
     }
 }

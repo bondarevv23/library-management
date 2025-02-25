@@ -9,8 +9,8 @@ public static class DbInitializer
     {
         EnsureDatabase.For.PostgresqlDatabase(connectionString);
 
-        var upgrader = DeployChanges.To
-            .PostgresqlDatabase(connectionString)
+        var upgrader = DeployChanges
+            .To.PostgresqlDatabase(connectionString)
             .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
             .WithTransaction()
             .LogToConsole()
@@ -18,7 +18,8 @@ public static class DbInitializer
 
         var migrationsResults = upgrader.PerformUpgrade();
 
-        if (!migrationsResults.Successful) {
+        if (!migrationsResults.Successful)
+        {
             throw new InvalidOperationException($"Migrations failed: {migrationsResults}");
         }
     }

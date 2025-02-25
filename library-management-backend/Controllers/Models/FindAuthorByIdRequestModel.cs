@@ -8,5 +8,6 @@ public class FindAuthorByIdRequestModel : IHasIdPathVariable, IHasOperationDetai
 
     public long? Id { set; get; }
 
-    public string OperationDetails => $"Find '{TABLE_NAME_AUTHORS}' record by id = '{IdPathVariable}'";
+    public string OperationDetails =>
+        $"Find '{TABLE_NAME_AUTHORS}' record by id = '{IdPathVariable}'";
 }
