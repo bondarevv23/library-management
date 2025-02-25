@@ -58,9 +58,12 @@ function Books() {
   const handleSearchSubmit = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (searchQuery.trim()) fetchBooksBySearch(searchQuery);
-      else fetchBooks(pageNumber);
       setPageNumber(1);
+      if (searchQuery.trim()) {
+        fetchBooksBySearch(searchQuery);
+      } else {
+        fetchBooks(pageNumber);
+      }
     }
   };
 
@@ -71,7 +74,7 @@ function Books() {
       setLoading,
       setError,
       errorMessage: 'Failed to delete book',
-    }).then(() => fetchBooks());;
+    }).then(() => fetchBooks(pageNumber));
   };
 
   const handleEdit = (book) => navigate(`/books/${book.id}`);

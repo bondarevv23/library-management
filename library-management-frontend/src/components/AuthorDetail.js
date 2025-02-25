@@ -107,6 +107,16 @@ function AuthorDetail() {
     }).then(() => navigate('/authors'));
   };
 
+  const handleCreate = () => {
+    setFormData(INITIAL_AUTHOR_FORM);
+    setAuthor(null);
+    setBooks([]);
+    setIsEditing(true);
+    setErrors({});
+    setServerError(null);
+    navigate('/authors/new');
+  }
+
   const handleEditToggle = () => setIsEditing(true);
 
   const handleCancel = () => {
@@ -167,6 +177,7 @@ function AuthorDetail() {
           <p><strong>Name:</strong> {author.name}</p>
           <p><strong>Date of Birth:</strong> {author.dateOfBirth}</p>
           <div className="button-group">
+            <button onClick={handleCreate} disabled={loading} className="button button-save">Create</button>
             <button onClick={handleEditToggle} disabled={loading} className="button button-edit">Edit</button>
             <button onClick={handleDelete} disabled={loading} className="button button-delete">Delete</button>
             <button onClick={handleBack} disabled={loading} className="button button-cancel">Back to Authors</button>

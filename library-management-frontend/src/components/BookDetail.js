@@ -63,8 +63,9 @@ function BookDetail() {
 
   useEffect(() => {
     fetchAllAuthors();
-    if (id) fetchBook();
-    else {
+    if (id){
+      fetchBook();
+    } else {
       setFormData(INITIAL_BOOK_FORM);
       setBook(null);
       setIsEditing(true);
