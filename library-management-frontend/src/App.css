@@ -60,7 +60,7 @@ th {
 }
 
 .book-form input[type="number"] {
-  width: 100px; /* Smaller width for year input */
+  width: 100px;
 }
 
 .book-detail {
@@ -85,7 +85,7 @@ th {
 }
 
 .book-detail input[type="number"] {
-  width: 100px; /* Smaller width for year */
+  width: 100px;
 }
 
 .book-detail button {

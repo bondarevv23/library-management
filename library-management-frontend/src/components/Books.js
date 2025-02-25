@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles.css';
 import { PAGE_SIZES } from '../constants';
+import '../styles.css';
 import { deleteData, fetchData } from '../utils';
 
 function Books() {
   const navigate = useNavigate();
-  const [books, setBooks] = useState({ data: [], totalPages: 0 });
+  const [books, setBooks] = useState({ data: [], totalPages: 1 });
   const [authors, setAuthors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -26,7 +26,7 @@ function Books() {
     setError,
     setData: (data) => {
       setIsSearching(false);
-      setBooks({ data: data.data || [], totalPages: data.totalPages || 0 });
+      setBooks({ data: data.data || [], totalPages: data.totalPages || 1 });
       console.log('Fetched books for page', page, data);
     },
     errorMessage: 'Failed to fetch books',
