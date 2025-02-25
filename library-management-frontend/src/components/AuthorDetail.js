@@ -162,7 +162,7 @@ function AuthorDetail() {
         {errors.dateOfBirth && <span className="error-message">{errors.dateOfBirth}</span>}
       </div>
       <div className="button-group">
-        <button type="submit" disabled={loading} className="button button-save">{id ? 'Update' : 'Create'}</button>
+        <button type="submit" disabled={loading} className="button button-edit">{id ? 'Update' : 'Create'}</button>
         <button type="button" onClick={handleCancel} disabled={loading} className="button button-cancel">Cancel</button>
         {id && <button type="button" onClick={handleDelete} disabled={loading} className="button button-delete">Delete</button>}
       </div>

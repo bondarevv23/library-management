@@ -126,6 +126,16 @@ function BookDetail() {
     setServerError(null);
   };
 
+  const handleCreate = () => {
+    setBook(null);
+    setAuthors([]);
+    setFormData(INITIAL_BOOK_FORM);
+    setErrors({});
+    setLoading(false);
+    setServerError(null);
+    navigate('/books/new');
+  };
+
   const handleBack = () => navigate('/books');
 
   if (loading) return <div>Loading...</div>;
@@ -189,6 +199,7 @@ function BookDetail() {
           <p><strong>Publication Year:</strong> {book.publicationYear}</p>
           <p><strong>Author:</strong> {authors.find((a) => a.id === book.authorId)?.name || 'Unknown'}</p>
           <div className="button-group">
+            <button onClick={handleCreate} disabled={loading} className="button button-save">Create</button>
             <button onClick={handleEditToggle} disabled={loading} className="button button-edit">Edit</button>
             <button onClick={handleDelete} disabled={loading} className="button button-delete">Delete</button>
             <button onClick={handleBack} disabled={loading} className="button button-cancel">Back to Books</button>
